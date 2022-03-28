@@ -1,1 +1,0 @@
-//Write a program to find the largest common divisor between two numbers

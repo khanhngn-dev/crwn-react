@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Elements } from '@stripe/react-stripe-js';
 
 import App from './App';
-import { UserProvider } from './contexts/user.context';
-import { CategoriesProvider } from './contexts/categories.context';
-import { CartProvider } from './contexts/cart.context';
+// import { UserProvider } from './contexts/user.context';
+// import { CategoriesProvider } from './contexts/categories.context';
+// import { CartProvider } from './contexts/cart.context';
+import { Provider } from 'react-redux';
+import { store, persistor } from './store/store';
+import { stripePromise } from './utils/stripe/stripe.utils';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
@@ -14,15 +19,21 @@ import './index.scss';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<UserProvider>
-				<CategoriesProvider>
-					<CartProvider>
+		<Provider store={store}>
+			<PersistGate persistor={persistor}>
+				<BrowserRouter>
+					{/* <UserProvider> */}
+					{/* <CategoriesProvider> */}
+					{/* <CartProvider> */}
+					<Elements stripe={stripePromise}>
 						<App />
-					</CartProvider>
-				</CategoriesProvider>
-			</UserProvider>
-		</BrowserRouter>
+					</Elements>
+					{/* </CartProvider> */}
+					{/* </CategoriesProvider> */}
+					{/* </UserProvider> */}
+				</BrowserRouter>
+			</PersistGate>
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById('root')
 );
